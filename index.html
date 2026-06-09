@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>master password</title>
+</head>
+<body>
+    <div>
+        <form>
+            <label for="name">Nome</label>
+            <input type="text" id="name" required autocomplete="off">
+
+            <label for="password">Senha</label>
+            <input type="password" id="password" required autocomplete="off">
+
+            <label for="site">Site</label>
+            <input type="text" id="site" required autocomplete="off">
+
+            <label for="counter">Variação</label>
+            <input type="number" id="counter" min="1" max="4294967295" value="1" required autocomplete="off">
+
+            <label for="type">Tipo</label>
+            <select id="type" required autocomplete="off">
+                <option value="maximum" selected>maximum</option>
+                <option value="long">long</option>
+                <option value="medium">medium</option>
+                <option value="basic">basic</option>
+                <option value="short">short</option>
+                <option value="pin">pin</option>
+                <option value="name">name</option>
+                <option value="phrase">phrase</option>
+            </select>
+        </form>
+    </div>
+    <div>
+        <output id="generated_password"></output>
+    </div>
+    <script src="dist/js/master-password.min.js" defer></script>
+</body>
+</html>
