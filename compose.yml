@@ -1,0 +1,10 @@
+services:
+  cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aironou/master-password:cli
+    profiles:
+      - cli
+    volumes:
+      - "./:/master-password"
