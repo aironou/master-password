@@ -74,17 +74,24 @@ class MasterPassword {
         dispatchEvent(new CustomEvent(MasterPassword.#UPDATE_PASSWORD));
     }
 
+    reset() {
+        this.name = undefined;
+        this.password = undefined;
+        this.site = undefined;
+        this.counter = undefined;
+        this.type = undefined;
+    }
+
     #updateMPW() {
         console.debug('updating MPW');
 
-        if (typeof this.#name === undefined || this.#password === undefined) {
+        if (this.#name === undefined || this.#password === undefined) {
+            this.#mpw = undefined;
             console.debug('MPW not updated', this.#name, this.#password);
-
-            return;
+        } else {
+            this.#mpw = new MPW(this.#name, this.#password, '3');
+            console.debug('MPW updated', this.#mpw);
         }
-
-        this.#mpw = new MPW(this.#name, this.#password, '3');
-        console.debug('MPW updated', this.#mpw);
 
         dispatchEvent(new CustomEvent(MasterPassword.#MPW_UPDATED));
     }
@@ -92,8 +99,9 @@ class MasterPassword {
     #updatePassword() {
         console.debug('updating password');
 
-        if (typeof this.#mpw === 'undefined' || typeof this.#site === 'undefined' || typeof this.#type === 'undefined') {
+        if (this.#mpw === undefined || this.#site === undefined || this.#counter === undefined || this.#type === undefined) {
             console.debug('password not updated', this.#mpw, this.#site, this.#counter, this.#type);
+            dispatchEvent(new CustomEvent(MasterPassword.PASSWORD_UPDATED, {detail: ''}));
 
             return;
         }
@@ -102,9 +110,7 @@ class MasterPassword {
             this.#mpw.generatePassword(this.#site, this.#counter, this.#type).then((password) => {
                 console.debug('password generated', password);
 
-                dispatchEvent(new CustomEvent(MasterPassword.PASSWORD_UPDATED, {
-                    detail: password,
-                }));
+                dispatchEvent(new CustomEvent(MasterPassword.PASSWORD_UPDATED, {detail: password}));
             });
         });
     }
@@ -120,6 +126,9 @@ const type = document.querySelector('#type');
 
 masterPassword.setCounter(counter.value);
 masterPassword.setType(type.value);
+const resetForm = document.querySelector('#reset-form');
+const generatedPassword = document.querySelector('#generated-password');
+
 masterPassword.counter = counter.value;
 masterPassword.type = type.value;
 
@@ -130,6 +139,14 @@ counter.addEventListener('input', (event) => masterPassword.counter = event.targ
 type.addEventListener('change', (event) => masterPassword.type = event.target.value);
 
     document.querySelector('#generated_password').innerHTML = event.detail;
+resetForm.addEventListener('click', () => {
+    name.focus();
+    document.querySelector('.password-form').reset();
+    masterPassword.reset();
+    masterPassword.counter = counter.value;
+    masterPassword.type = type.value;
+});
+
 });
 
 addEventListener(MasterPassword.PASSWORD_UPDATED, async (event) => {
