@@ -10,3 +10,5 @@ RUN apk add git
 
 WORKDIR $WORKDIR
 USER $USER
+
+ENTRYPOINT ["npm"]
