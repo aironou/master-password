@@ -124,8 +124,6 @@ const site = document.querySelector('#site');
 const counter = document.querySelector('#counter');
 const type = document.querySelector('#type');
 
-masterPassword.setCounter(counter.value);
-masterPassword.setType(type.value);
 const resetForm = document.querySelector('#reset-form');
 const generatedPassword = document.querySelector('#generated-password');
 
@@ -138,7 +136,6 @@ site.addEventListener('input', (event) => masterPassword.site = event.target.val
 counter.addEventListener('input', (event) => masterPassword.counter = event.target.value);
 type.addEventListener('change', (event) => masterPassword.type = event.target.value);
 
-    document.querySelector('#generated_password').innerHTML = event.detail;
 resetForm.addEventListener('click', () => {
     name.focus();
     document.querySelector('.password-form').reset();
@@ -147,10 +144,17 @@ resetForm.addEventListener('click', () => {
     masterPassword.type = type.value;
 });
 
+generatedPassword.addEventListener('click', async (event) => {
+    if (event.target.innerText !== '') {
+        await navigator.clipboard.writeText(event.target.innerText);
+    }
 });
 
 addEventListener(MasterPassword.PASSWORD_UPDATED, async (event) => {
     console.debug('updating generated-password output', event);
 
     generatedPassword.textContent = event.detail;
+    if (event.detail !== '' && document.querySelector('#copy-to-clipboard').checked) {
+        await navigator.clipboard.writeText(event.detail);
+    }
 })
