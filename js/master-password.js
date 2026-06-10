@@ -19,7 +19,7 @@ class MasterPassword {
     #name = undefined;
     #password = undefined;
     #site = undefined;
-    #counter = 1;
+    #counter = undefined;
     #type = undefined;
 
     constructor() {
@@ -28,49 +28,49 @@ class MasterPassword {
         addEventListener(MasterPassword.#UPDATE_PASSWORD, () => this.#updatePassword());
     }
 
-    setName(name) {
-        if (typeof name !== 'string' || name.trim() === '') {
+    set name(name) {
+        if (this.#name === name) {
             return;
         }
 
-        this.#name = name;
+        this.#name = typeof name !== 'string' || name.trim() === '' ? undefined : name;
         dispatchEvent(new CustomEvent(MasterPassword.#UPDATE_MPW));
     }
 
-    setPassword(password) {
-        if (typeof password !== 'string' || password === '') {
+    set password(password) {
+        if (this.#password === password) {
             return;
         }
 
-        this.#password = password;
+        this.#password = typeof password !== 'string' || password === '' ? undefined : password;
         dispatchEvent(new CustomEvent(MasterPassword.#UPDATE_MPW));
     }
 
-    setSite(site) {
-        if (typeof site !== 'string' || site.trim() === '') {
+    set site(site) {
+        if (this.#site === site) {
             return;
         }
 
-        this.#site = site;
+        this.#site = typeof site !== 'string' || site.trim() === '' ? undefined : site;
         dispatchEvent(new CustomEvent(MasterPassword.#UPDATE_PASSWORD));
     }
 
-    setCounter(counter) {
+    set counter(counter) {
         counter = Number(counter);
-        if (typeof counter !== 'number' || counter < 1 || counter > (Math.pow(2, 32) - 1)) {
+        if (this.#counter === counter) {
             return;
         }
 
-        this.#counter = counter;
+        this.#counter = typeof counter !== 'number' || counter < 1 || counter > (Math.pow(2, 32) - 1) ? undefined : counter;
         dispatchEvent(new CustomEvent(MasterPassword.#UPDATE_PASSWORD));
     }
 
-    setType(type) {
-        if (typeof type !== 'string' || ! MasterPassword.#ACCEPTED_TYPES.includes(type)) {
+    set type(type) {
+        if (this.#type === type) {
             return;
         }
 
-        this.#type = type;
+        this.#type = typeof type !== 'string' || ! MasterPassword.#ACCEPTED_TYPES.includes(type) ? undefined : type;
         dispatchEvent(new CustomEvent(MasterPassword.#UPDATE_PASSWORD));
     }
 
@@ -120,14 +120,20 @@ const type = document.querySelector('#type');
 
 masterPassword.setCounter(counter.value);
 masterPassword.setType(type.value);
+masterPassword.counter = counter.value;
+masterPassword.type = type.value;
 
-name.addEventListener('change', (event) => masterPassword.setName(event.target.value));
-password.addEventListener('change', (event) => masterPassword.setPassword(event.target.value));
-site.addEventListener('input', (event) => masterPassword.setSite(event.target.value));
-counter.addEventListener('input', (event) => masterPassword.setCounter(event.target.value));
-type.addEventListener('change', (event) => masterPassword.setType(event.target.value));
-addEventListener(MasterPassword.PASSWORD_UPDATED, (event) => {
-    console.debug('updating generated_password', event);
+name.addEventListener('change', (event) => masterPassword.name = event.target.value);
+password.addEventListener('change', (event) => masterPassword.password = event.target.value);
+site.addEventListener('input', (event) => masterPassword.site = event.target.value);
+counter.addEventListener('input', (event) => masterPassword.counter = event.target.value);
+type.addEventListener('change', (event) => masterPassword.type = event.target.value);
 
     document.querySelector('#generated_password').innerHTML = event.detail;
 });
+
+addEventListener(MasterPassword.PASSWORD_UPDATED, async (event) => {
+    console.debug('updating generated-password output', event);
+
+    generatedPassword.textContent = event.detail;
+})
