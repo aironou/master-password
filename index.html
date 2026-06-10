@@ -2,39 +2,57 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>master password</title>
+    <link rel="stylesheet" href="dist/css/master-password.min.css">
 </head>
 <body>
-    <div>
-        <form>
-            <label for="name">Nome</label>
-            <input type="text" id="name" required autocomplete="off">
+    <main class="page">
+        <section class="card" aria-labelledby="form-title">
+            <form class="password-form">
+                <div class="field">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" required autocomplete="off" placeholder="digite seu nome" autofocus>
+                </div>
 
-            <label for="password">Senha</label>
-            <input type="password" id="password" required autocomplete="off">
+                <div class="field">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" required autocomplete="off" placeholder="digite sua senha">
+                </div>
 
-            <label for="site">Site</label>
-            <input type="text" id="site" required autocomplete="off">
+                <div class="field">
+                    <label for="site">Site</label>
+                    <input type="text" id="site" required autocomplete="off" placeholder="digite o site">
+                </div>
 
-            <label for="counter">Variação</label>
-            <input type="number" id="counter" min="1" max="4294967295" value="1" required autocomplete="off">
+                <div class="field-row">
+                    <div class="field">
+                        <label for="counter">Variação</label>
+                        <input type="number" id="counter" min="1" max="4294967295" value="1" required autocomplete="off" inputmode="numeric">
+                    </div>
 
-            <label for="type">Tipo</label>
-            <select id="type" required autocomplete="off">
-                <option value="maximum" selected>maximum</option>
-                <option value="long">long</option>
-                <option value="medium">medium</option>
-                <option value="basic">basic</option>
-                <option value="short">short</option>
-                <option value="pin">pin</option>
-                <option value="name">name</option>
-                <option value="phrase">phrase</option>
-            </select>
-        </form>
-    </div>
-    <div>
-        <output id="generated_password"></output>
-    </div>
+                    <div class="field">
+                        <label for="type">Tipo</label>
+                        <select id="type" required autocomplete="off">
+                            <option value="maximum" selected>máximo</option>
+                            <option value="long">longo</option>
+                            <option value="medium">médio</option>
+                            <option value="basic">básico</option>
+                            <option value="short">curto</option>
+                            <option value="pin">pin</option>
+                            <option value="name">nome</option>
+                            <option value="phrase">frase</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section class="result-card">
+            <span class="result-card__label">Senha gerada</span>
+            <output id="generated_password" class="result-card__value"></output>
+        </section>
+    </main>
     <script src="dist/js/master-password.min.js" defer></script>
 </body>
 </html>
