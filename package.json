@@ -3,9 +3,12 @@
     "@aironou/master-password-js": "github:aironou/master-password-js"
   },
   "devDependencies": {
+    "clean-css-cli": "^5.6.3",
     "terser": "^5.48.0"
   },
   "scripts": {
-    "build": "terser node_modules/@aironou/master-password-js/dist/master-password.min.js js/master-password.js -cm --comments false --output dist/js/master-password.min.js"
+    "build:js": "terser node_modules/@aironou/master-password-js/dist/master-password.min.js js/master-password.js -cm --comments false --output dist/js/master-password.min.js",
+    "build:css": "cleancss -o dist/css/master-password.min.css css/master-password.css",
+    "build": "npm run build:js && npm run build:css"
   }
 }
