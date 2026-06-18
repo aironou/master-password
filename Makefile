@@ -4,8 +4,8 @@ SHELL=/bin/sh
 DC = docker compose
 DC_CLI = $(DC) run --rm cli
 
-.PHONY: dist
-dist: node_modules
+.PHONY: build
+build: node_modules
 	$(DC_CLI) run build
 
 .PHONY: cli
