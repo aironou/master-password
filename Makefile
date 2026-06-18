@@ -15,7 +15,7 @@ cli:
 js/master-password.min.js: node_modules
 	$(DC_CLI) run build:js
 
-dist/css/master-password.min.css: node_modules
+css/master-password.min.css: node_modules
 	$(DC_CLI) run build:css
 
 node_modules:
