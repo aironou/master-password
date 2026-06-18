@@ -12,7 +12,7 @@ dist: node_modules
 cli:
 	$(DC) run --entrypoint '' --rm cli sh
 
-dist/js/master-password.min.js: node_modules
+js/master-password.min.js: node_modules
 	$(DC_CLI) run build:js
 
 dist/css/master-password.min.css: node_modules
